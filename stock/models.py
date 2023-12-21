@@ -61,19 +61,19 @@ class Property(models.Model):
         (JORDAN, 'Jordan'),
     )
 
-    brand = models.CharField(max_length=255)
-    size = models.CharField(max_length=255)
+    brand = models.CharField(max_length=1, choices = BRAND_CHOICES)
+    size = models.CharField(max_length=1, choices = SIZE_CHOICES)
 
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     productname = models.CharField(max_length=255)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.PROTECT)
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
-    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
-    Supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    product_type = models.ForeignKey(ProductType, on_delete=models.PROTECT)
+    Supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT)
     threshold = models.IntegerField(validators=[MinValueValidator(0)])
 
 
@@ -82,5 +82,7 @@ class Sale(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     date = models.DateField(auto_now_add=True)
     product = models.ManyToManyField(Product, on_delete=models.CASCADE)
+    
+    
 
 
