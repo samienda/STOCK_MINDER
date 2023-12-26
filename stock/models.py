@@ -17,7 +17,7 @@ class ProductType(models.Model):
 
 
 class Purchase(models.Model):
-    productlist = models.ForeignKey('product', on_delete=models.CASCADE)
+    productlist = models.ForeignKey('product', on_delete=models.CASCADE, related_name='purchase_items')
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     date = models.DateField(auto_now_add=True)
@@ -62,7 +62,7 @@ class Property(models.Model):
     )
 
     brand = models.CharField(max_length=1, choices = BRAND_CHOICES)
-    size = models.CharField(max_length=1, choices = SIZE_CHOICES)
+    size = models.CharField(max_length=3, choices = SIZE_CHOICES)
 
 
 class Product(models.Model):
@@ -81,7 +81,7 @@ class Sale(models.Model):
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     date = models.DateField(auto_now_add=True)
-    product = models.ManyToManyField(Product, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product)
     
     
 
