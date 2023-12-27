@@ -14,13 +14,16 @@ class User(models.Model):
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
+
 
 
 class Purchase(models.Model):
-    productlist = models.ForeignKey('product', on_delete=models.CASCADE, related_name='purchase_items')
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     date = models.DateField(auto_now_add=True)
+    productlist = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='+', null=True, blank=True)
 
 
 
@@ -72,7 +75,7 @@ class Product(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
-    product_type = models.ForeignKey(ProductType, on_delete=models.PROTECT)
+    product_type = models.ForeignKey(ProductType, on_delete=models.PROTECT, related_name='products')
     Supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT)
     threshold = models.IntegerField(validators=[MinValueValidator(0)])
 
