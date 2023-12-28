@@ -1,83 +1,67 @@
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+# from django.shortcuts import get_object_or_404
+# from django.http import HttpResponse
+from django.db.models.aggregates import Count
+from django_filters.rest_framework import DjangoFilterBackend
 
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+# from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter,OrderingFilter
+# from rest_framework.
 
 from stock.models import Product, Supplier, ProductType, Purchase, Property
-
 from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer
 
 # Create your views here.
 
 
-@api_view()
-def product_list(request):
+class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
-    serializer = ProductSerializer(queryset, many=True)
-    return Response(serializer.data)
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'  #['productname', 'property', 'purchase',]
+    search_fields = '__all__'
+    ordering_fields = '_all__'
+    
+    
+    def get_serializer_context(self):
+        return {'request' : self.request}
+    
+    
 
 
-@api_view()
-def product_detail(request, id):
-    product = get_object_or_404(Product, pk=id)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
-
-
-@api_view()
-def supplier_list(request):
+class SupplierViewSet(ModelViewSet):
     queryset = Supplier.objects.all()
-    serializer = SupplierSerializer(queryset, many=True)
-    return Response(serializer.data)
-
-
-@api_view()
-def supplier_detail(request, id):
-    supplier = get_object_or_404(Supplier, pk=id)
-    serialzer = SupplierSerializer(supplier)
-    return Response(serialzer.data)
-
-
-@api_view()
-def productType_list(request):
-    queryset = ProductType.objects.all()
-    serialzer = ProductTypeSerializer(queryset, many=True)
-    return Response(serialzer.data)
-
-
-@api_view()
-def productType_detail(request, id):
-    producttype = get_object_or_404(ProductType, pk=id)
-    serialzer = ProductTypeSerializer(producttype)
-    return Response(serialzer.data)
-
-
-@api_view()
-def purchase_list(request):
-    queryset = Purchase.objects.all()
-    serializer = PurchaseSerializer(queryset, many=True)
-    return Response(serializer.data)
-
-
-@api_view()
-def purchase_detail(request, id):
-    purchase = get_object_or_404(Purchase, pk=id)
-    serializer = PurchaseSerializer(purchase)
-    return Response(serializer.data)
+    serializer_class = SupplierSerializer
+    
+    def destroy(self, request, *args, **kwargs):
+        if Product.objects.filter(supplier_id= kwargs['pk'].count() > 0):
+            return Response({'error': "supplier can not be deleted since it is associated with product"})
+        return super().destroy(request, *args, **kwargs)
 
 
 
-@api_view()
-def property_list(request):
+class ProductTypeViewSet(ModelViewSet):
+    queryset = ProductType.objects.annotate(product_count=Count('products')).all()
+    serialzer = ProductTypeSerializer
+    
+    def destroy(self, request, *args, **kwargs):
+        if Product.objects.filter(product_type_id= kwargs['pk'].count() > 0):
+            return Response({'error': "supplier can not be deleted since it is associated with product"})
+        return super().destroy(request, *args, **kwargs)
+    
+    
+    
+
+class PurchaseViewSet(ModelViewSet):
+    queryset = Purchase.objects.annotate(product_count=Count('product')).all()
+    serializer_class = PurchaseSerializer
+    
+
+
+
+class PropertyViewSet(ModelViewSet):
     queryset = Property.objects.all()
-    serializer = ProperySerializer(queryset, many=True)
-    return Response(serializer.data)
+    serializer = ProperySerializer
+    
 
-
-@api_view()
-def property_detail(request, id):
-    properties = get_object_or_404(Property, pk=id)
-    serializer = ProperySerializer(properties)
-    return Response(serializer.data)
