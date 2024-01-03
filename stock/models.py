@@ -10,10 +10,22 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
 
+    def __str__(self) ->str:
+        return self.username
+    
+    class Meta:
+         ordering = ['username']
+
 
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self) ->str:
+        return self.name
+    
+    class Meta:
+         ordering = ['name']
 
 
 class Purchase(models.Model):
@@ -27,6 +39,12 @@ class Purchase(models.Model):
 class Supplier(models.Model):
     name = models.CharField(max_length=255)
     contact_info = models.CharField(max_length=255)
+
+    def __str__(self) ->str:
+        return self.name
+    
+    class Meta:
+         ordering = ['name']
 
 
 
@@ -63,6 +81,12 @@ class Property(models.Model):
 
     brand = models.CharField(max_length=1, choices = BRAND_CHOICES)
     size = models.CharField(max_length=3, choices = SIZE_CHOICES)
+
+    def __str__(self) ->str:
+        return self.BRAND_CHOICES[self.brand] + ' ' + self.SIZE_CHOICES[self.size]
+    
+    class Meta:
+         ordering = ['brand', 'size']
 
 
 class Product(models.Model):
