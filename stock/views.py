@@ -28,12 +28,16 @@ class ProductViewSet(ModelViewSet):
     search_fields = '__all__'
     ordering_fields = '_all__'
 
-    
+
     
     def get_serializer_context(self):
-        return {'request' : self.request}
+        return {'purchase_id': self.kwargs['purchase_pk']}
+
+    def get_queryset(self):
+        return Product.objects.filter(purchase_id=self.kwargs['purchase_pk'])
+
     
-    
+
 
 
 class SupplierViewSet(ModelViewSet):
@@ -60,24 +64,11 @@ class ProductTypeViewSet(ModelViewSet):
     
 
 class PurchaseViewSet(ModelViewSet):
-    queryset = Purchase.objects.annotate(product_count=Count('product')).all()
+    queryset = Purchase.objects.annotate(
+        product_count=Count('productslist')).all()
     serializer_class = PurchaseSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
-    
-    
-    def perform_create(self, serializer):
-    # Call the serializer's save method to create the Purchase instance
-        purchase_instance = serializer.save()
-
-        # Manually create associated Product instances using the purchase_instance data
-        product_data_list = serializer.validated_data.get('productlist', [])
-        for product_data in product_data_list:
-            Product.objects.create(purchase=purchase_instance, **product_data)
-
-        return purchase_instance
-    
-
 
 
 class PropertyViewSet(ModelViewSet):

@@ -12,12 +12,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+
+    def create(self, validated_data):
+        purchase_id = self.context['purchase_id']
+        return Product.objects.create(purchase_id=purchase_id, ** validated_data)
+
+
     class Meta:
         model = Product
         fields = ['id', 'user', 'productname',
                   'property', 'quantity', 'price',
                   'threshold', 'product_type',
-                  'purchase', 'supplier']
+                  'supplier']
 
 
 class SupplierSerializer(serializers.ModelSerializer):
@@ -39,11 +45,17 @@ class ProductTypeSerializer(serializers.ModelSerializer):
 class PurchaseSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     date = serializers.ReadOnlyField()
-    productlist = ProductSerializer(many=True)
+    productslist = ProductSerializer(many=True, read_only=True)
+    total_price = serializers.SerializerMethodField()
+    quantity = serializers.ReadOnlyField()
+
+    def get_total_price(self, purchase: Purchase):
+        return sum([product.quantity * product.price for product in purchase.productslist.all()])
+
 
     class Meta:
         model = Purchase
-        fields = ['id', 'quantity', 'total_price', 'date', 'productlist']
+        fields = ['id', 'quantity', 'total_price', 'date', 'productslist']
 
 
 
