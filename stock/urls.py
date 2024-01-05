@@ -5,12 +5,14 @@ from rest_framework_nested import routers
 # URLConf
 
 router = routers.DefaultRouter()
-# router.register('products', views.ProductViewSet)
+router.register('products', views.StockProductViewSet)
 router.register('suppliers', views.SupplierViewSet)
 router.register('producttypes', views.ProductTypeViewSet)
 router.register('purchases', views.PurchaseViewSet)
 router.register('properties', views.PropertyViewSet)
 router.register('users', views.UserViewSet)
+router.register('sales', views.SaleViewSet)
+
 
 purchases_router = routers.NestedDefaultRouter(
     router, 'purchases', lookup='purchase'

@@ -42,9 +42,11 @@ INSTALLED_APPS = [
     'stock',
     "debug_toolbar",
     "django_filters",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +60,11 @@ MIDDLEWARE = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://127.0.0.1:5500",
+]
+
 
 ROOT_URLCONF = 'stockminder.urls'
 

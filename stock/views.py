@@ -5,14 +5,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.response import Response
 # from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
 from rest_framework.filters import SearchFilter,OrderingFilter
 # from rest_framework.
 
-from stock.models import User, Product, Supplier, ProductType, Purchase, Property
-from stock.serializers import UserSerializer, ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer
+from stock.models import User, Product, Supplier, ProductType, Purchase, Property, Sale
+from stock.serializers import UserSerializer, ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer
 
 # Create your views here.
+
 
 
 class UserViewSet(ModelViewSet):
@@ -24,7 +26,7 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = '__all__'  #['productname', 'property', 'purchase',]
+    filterset_fields = '__all__'
     search_fields = '__all__'
     ordering_fields = '_all__'
 
@@ -76,5 +78,19 @@ class PropertyViewSet(ModelViewSet):
     serializer_class = ProperySerializer
     
 
+class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
+    def perform_destroy(self, instance):
+        product = instance.product
+
+        product.quantity += instance.quantity
+        product.save()
+
+        return super().perform_destroy(instance)
 
 
+class StockProductViewSet(ListModelMixin, GenericViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

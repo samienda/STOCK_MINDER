@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from stock.models import User,  Product, Supplier, ProductType, Purchase, Property
+from stock.models import User,  Product, Supplier, ProductType, Purchase, Property, Sale
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -65,6 +65,12 @@ class ProperySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         fields = ['id', 'brand', 'size']
-        
-        
-        
+
+
+class SaleSerializer(serializers.ModelSerializer):
+    product = ProductSerializer
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Sale
+        fields = ['id', 'product', 'quantity', 'total_price']
