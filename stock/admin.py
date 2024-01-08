@@ -1,7 +1,5 @@
-from typing import Any
 from django.contrib import admin, messages
 from django.db.models.query import QuerySet
-from django.http.request import HttpRequest
 from django.urls import reverse
 from django.db.models import Count
 from django.utils.html import format_html, urlencode, format_html
@@ -17,7 +15,7 @@ class inventoryFilter(admin.SimpleListFilter):
     title = 'Inventory Status'
     parameter_name = 'inventory_status'
 
-    def lookups(self, request: HttpRequest, model_admin: Any) -> list[tuple[str, str]]:
+    def lookups(self, request, model_admin) -> list[tuple[str, str]]:
         return [
             ('low', 'Low'),
             ('good', 'Good Enough')
@@ -35,6 +33,7 @@ class userAdmin(admin.ModelAdmin):
     list_editable = ['email', 'password']
     list_per_page = 20 
     search_fields = ['username__istartswith']
+
 
 @admin.register(models.Product)
 class productAdmin(admin.ModelAdmin):
