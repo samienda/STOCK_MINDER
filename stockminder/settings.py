@@ -32,12 +32,16 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sessions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stock',
-    "debug_toolbar",
+    'debug_toolbar',
+    'tags',
+    'stock_custom',
+
 ]
 
 MIDDLEWARE = [
@@ -79,10 +83,16 @@ WSGI_APPLICATION = 'stockminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+dbpass = '123321'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'stockminder',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'root',  # MySQL username is 'root'
+        'PASSWORD': dbpass,
     }
 }
 

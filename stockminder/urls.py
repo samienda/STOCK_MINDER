@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 
+admin.site.site_header = 'Stockminder Admin'
+admin.site .index_title = 'Adminstrator'
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stock/', include('stock.urls')),
