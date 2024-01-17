@@ -11,7 +11,7 @@ class UserSerializer(BaseUserSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    # user = serializers.ReadOnlyField()
+    user = UserSerializer(read_only=True)
 
 
     def create(self, validated_data):
@@ -48,15 +48,20 @@ class PurchaseSerializer(serializers.ModelSerializer):
     date = serializers.ReadOnlyField()
     productslist = ProductSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
-    quantity = serializers.ReadOnlyField()
+    quantity = serializers.SerializerMethodField()
+    user = UserSerializer(read_only=True)
 
     def get_total_price(self, purchase: Purchase):
         return sum([product.quantity * product.price for product in purchase.productslist.all()])
 
+    def get_quantity(self, purchase: Purchase):
+        return sum([product.quantity for product in purchase.productslist.all()])
+
 
     class Meta:
         model = Purchase
-        fields = ['id', 'quantity', 'total_price', 'date', 'productslist']
+        fields = ['id', 'quantity', 'total_price',
+                  'date', 'productslist', 'user']
 
 
 
@@ -69,9 +74,9 @@ class ProperySerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
-    product = ProductSerializer
     id = serializers.IntegerField(read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Sale
-        fields = ['id', 'product', 'quantity', 'total_price']
+        fields = ['id', 'product', 'quantity', 'total_price', 'user']

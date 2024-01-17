@@ -18,6 +18,7 @@ from stock.serializers import ProductSerializer, SupplierSerializer, ProductType
 
 
 class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
@@ -28,7 +29,6 @@ class ProductViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    
     def get_serializer_context(self):
         return {'purchase_id': self.kwargs['purchase_pk']}
 
@@ -37,6 +37,7 @@ class ProductViewSet(ModelViewSet):
 
 
 class SupplierViewSet(ModelViewSet):
+    queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     permission_classes = [IsAuthenticated]
     
@@ -52,6 +53,8 @@ class SupplierViewSet(ModelViewSet):
 
 
 
+
+
 class ProductTypeViewSet(ModelViewSet):
     queryset = ProductType.objects.annotate(product_count=Count('products')).all()
     serializer_class = ProductTypeSerializer
@@ -63,10 +66,7 @@ class ProductTypeViewSet(ModelViewSet):
             return Response({'error': "supplier can not be deleted since it is associated with product"})
         return super().destroy(request, *args, **kwargs)
     
-    def get_queryset(self):
-        product_ids = Product.objects.filter(
-            user=self.request.user).values_list('product_type', flat=True)
-        return ProductType.objects.filter(id__in=product_ids)
+
 
 
     
@@ -87,16 +87,13 @@ class PurchaseViewSet(ModelViewSet):
 
 
 class PropertyViewSet(ModelViewSet):
+    queryset = Property.objects.all()
     serializer_class = ProperySerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        product_ids = Product.objects.filter(
-            user=self.request.user).values_list('property', flat=True)
-        return Property.objects.filter(id__in=product_ids)
-
 
 class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericViewSet):
+    queryset = Sale.objects.all()
     serializer_class = SaleSerializer
     permission_classes = [IsAuthenticated]
 
@@ -113,10 +110,17 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
             user=self.request.user).values_list('sale', flat=True)
         return Sale.objects.filter(id__in=product_ids)
 
+    # def generate_alert(self, instance):
+    #     product = instance.product
+    #     if product.quantity < product.treshold:
+    #         return Response({'error': "product is less than 10"})
+    #     return super().generate_alert(instance)
+
 
 class StockProductViewSet(ListModelMixin, GenericViewSet):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Product.objects.filter(user=self.request.user, purchase_id=self.kwargs['purchase_pk'])
+        return Product.objects.filter(user=self.request.user)

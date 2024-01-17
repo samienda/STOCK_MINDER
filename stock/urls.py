@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 from rest_framework_nested import routers
-from . import views
-from rest_framework_nested import routers
 # URLConf
 
 router = routers.DefaultRouter()

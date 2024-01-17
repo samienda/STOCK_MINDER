@@ -16,6 +16,8 @@ class ProductType(models.Model):
 
 
 class Supplier(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255)
     contact_info = models.CharField(max_length=255)
     
@@ -25,6 +27,8 @@ class Supplier(models.Model):
 
 
 class Purchase(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, default=1)
     quantity = models.IntegerField(
         validators=[MinValueValidator(1)], default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[
@@ -60,10 +64,12 @@ class Product(models.Model):
     threshold = models.IntegerField(validators=[MinValueValidator(0)])
 
     def __str__(self) -> str:
-        return f"{self.id} => {self.productname} {self.property}"
+        return f"{self.id} => {self.productname} => {self.product_type} => {self.property}"
 
 
 class Sale(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, default=1)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
     date = models.DateField(auto_now_add=True)
@@ -79,7 +85,3 @@ class Sale(models.Model):
         product.save()
 
         super().save(*args, **kwargs)
-
-    
-
-
