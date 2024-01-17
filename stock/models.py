@@ -1,16 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator  # , MaxValueValidator
 # Create your models here.
 
-
-
-class User(models.Model):
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255)
-    
-    def __str__(self) -> str:
-        return self.username
 
 
 
@@ -56,7 +48,7 @@ class Property(models.Model):
 
 
 class Product(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     productname = models.CharField(max_length=255)
     property = models.ForeignKey(Property, on_delete=models.PROTECT)
     purchase = models.ForeignKey(

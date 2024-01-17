@@ -1,17 +1,18 @@
 from rest_framework import serializers
-from stock.models import User,  Product, Supplier, ProductType, Purchase, Property, Sale
+from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
+from djoser.serializers import UserSerializer as BaseUserSerializer
 
 
-class UserSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = User
+class UserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
         fields = ['id', 'username', 'email']
 
 
 
 class ProductSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+    # user = serializers.ReadOnlyField()
+
 
     def create(self, validated_data):
         purchase_id = self.context['purchase_id']
