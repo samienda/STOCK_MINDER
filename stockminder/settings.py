@@ -64,9 +64,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://127.0.0.1:5500",
-]
+CORS_ALLOWED_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'stockminder.urls'
