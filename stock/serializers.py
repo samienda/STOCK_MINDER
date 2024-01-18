@@ -36,11 +36,16 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 class ProductTypeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+    products_under = serializers.SerializerMethodField()
     class Meta:
         model = ProductType
-        fields = ['id', 'name', 'product_count']
+        fields = ['id', 'name', 'products_under']
 
-    product_count = serializers.IntegerField(read_only=True)
+    def get_products_under(self, product_type: ProductType):
+        request = self.context.get('request')
+        if request and hasattr(request, "user"):
+            return product_type.products.filter(user=request.user).count()
+
 
 
 class PurchaseSerializer(serializers.ModelSerializer):

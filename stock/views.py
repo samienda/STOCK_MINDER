@@ -30,7 +30,9 @@ class ProductViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
     def get_serializer_context(self):
-        return {'purchase_id': self.kwargs['purchase_pk']}
+        context = super().get_serializer_context()
+        context['purchase_id'] = self.kwargs.get('purchase_pk')
+        return context
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user, purchase_id=self.kwargs['purchase_pk'])
