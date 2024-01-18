@@ -48,10 +48,10 @@ class SupplierViewSet(ModelViewSet):
             return Response({'error': "supplier can not be deleted since it is associated with product"})
         return super().destroy(request, *args, **kwargs)
 
-    def get_queryset(self):
-        product_ids = Product.objects.filter(
-            user=self.request.user).values_list('supplier', flat=True)
-        return Supplier.objects.filter(id__in=product_ids)
+    # def get_queryset(self):
+    #     product_ids = Product.objects.filter(
+    #         user=self.request.user).values_list('supplier', flat=True)
+    #     return Supplier.objects.filter(id__in=product_ids)
 
 
 
