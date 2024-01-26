@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
 from djoser.serializers import UserSerializer as BaseUserSerializer
+from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
 
 
 class UserSerializer(BaseUserSerializer):
@@ -29,9 +29,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class SupplierSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Supplier
-        fields = ['id', 'name', 'contact_info']
+        fields = ['id', 'name', 'contact_info', 'user']
 
 
 class ProductTypeSerializer(serializers.ModelSerializer):

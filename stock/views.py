@@ -1,6 +1,8 @@
 # from django.shortcuts import get_object_or_404
 # from django.http import HttpResponse
 from django.db.models.aggregates import Count
+from django.db.models import F
+from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 
@@ -13,6 +15,7 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 
 from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
 from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer
+
 
 # Create your views here.
 
@@ -48,12 +51,11 @@ class SupplierViewSet(ModelViewSet):
             return Response({'error': "supplier can not be deleted since it is associated with product"})
         return super().destroy(request, *args, **kwargs)
 
-    # def get_queryset(self):
-    #     product_ids = Product.objects.filter(
-    #         user=self.request.user).values_list('supplier', flat=True)
-    #     return Supplier.objects.filter(id__in=product_ids)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-
+    def get_queryset(self):
+        return Supplier.objects.filter(user=self.request.user)
 
 
 
@@ -83,9 +85,10 @@ class PurchaseViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        product_ids = Product.objects.filter(
-            user=self.request.user).values_list('purchase', flat=True)
-        return Purchase.objects.filter(id__in=product_ids)
+        return Purchase.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class PropertyViewSet(ModelViewSet):
@@ -99,11 +102,18 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
     serializer_class = SaleSerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
     def perform_destroy(self, instance):
         product = instance.product
 
         product.quantity += instance.quantity
         product.save()
+
+        if product.quantity < product.threshold:
+            self.generate_alert_email(product)
 
         return super().perform_destroy(instance)
 
@@ -112,17 +122,36 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
             user=self.request.user).values_list('sale', flat=True)
         return Sale.objects.filter(id__in=product_ids)
 
-    # def generate_alert(self, instance):
-    #     product = instance.product
-    #     if product.quantity < product.treshold:
-    #         return Response({'error': "product is less than 10"})
-    #     return super().generate_alert(instance)
+    def generate_alert_email(self, product):
+        send_mail(
+            'Product Alert',
+            f'Product {product.productname} is low on stock',
+            'samipythontest@gmail.com',
+            [self.request.user.email],
+            fail_silently=False,
+        )
+
 
 
 class StockProductViewSet(ListModelMixin, GenericViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user)
+
+
+class LowStockProductViewSet(ListModelMixin, GenericViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+
+    def get_queryset(self):
+        return Product.objects.filter(user=self.request.user, quantity__lte=F('threshold'))

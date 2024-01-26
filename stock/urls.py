@@ -10,6 +10,8 @@ router.register('producttypes', views.ProductTypeViewSet)
 router.register('purchases', views.PurchaseViewSet)
 router.register('properties', views.PropertyViewSet)
 router.register('sales', views.SaleViewSet)
+router.register('lowstocks', views.LowStockProductViewSet,
+                basename='lowstocks')
 
 purchases_router = routers.NestedDefaultRouter(
     router, 'purchases', lookup='purchase'
