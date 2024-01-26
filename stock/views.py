@@ -17,6 +17,11 @@ from stock.models import Product, Supplier, ProductType, Purchase, Property, Sal
 from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer
 
 
+
+from django.core.mail import BadHeaderError
+from smtplib import SMTPException
+
+
 # Create your views here.
 
 
@@ -122,7 +127,21 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
             user=self.request.user).values_list('sale', flat=True)
         return Sale.objects.filter(id__in=product_ids)
 
-    def generate_alert_email(self, product):
+
+
+    # def generate_alert_email(self, product):
+    #     send_mail(
+    #         'Product Alert',
+    #         f'Product {product.productname} is low on stock',
+    #         'samipythontest@gmail.com',
+    #         [self.request.user.email],
+    #         fail_silently=False,
+    #     )
+
+
+
+def generate_alert_email(self, product):
+    try:
         send_mail(
             'Product Alert',
             f'Product {product.productname} is low on stock',
@@ -130,6 +149,15 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
             [self.request.user.email],
             fail_silently=False,
         )
+    except BadHeaderError:
+        print('Invalid header found.')
+    except SMTPException as e:
+        print(f'An error occurred: {e}')
+
+
+
+
+
 
 
 
