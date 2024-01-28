@@ -14,7 +14,7 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 # from rest_framework.
 
 from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
-from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer
+from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer, StockProductSerializer
 
 
 
@@ -94,12 +94,16 @@ class PurchaseViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+        
 
 
 class PropertyViewSet(ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = ProperySerializer
     permission_classes = [IsAuthenticated]
+    
+    
 
 
 class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericViewSet):
@@ -163,7 +167,7 @@ def generate_alert_email(self, product):
 
 class StockProductViewSet(ListModelMixin, GenericViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = StockProductSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
@@ -175,7 +179,7 @@ class StockProductViewSet(ListModelMixin, GenericViewSet):
 
 class LowStockProductViewSet(ListModelMixin, GenericViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = StockProductSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'

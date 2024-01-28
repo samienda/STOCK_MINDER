@@ -14,11 +14,6 @@ class ProductSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
 
 
-    def create(self, validated_data):
-        purchase_id = self.context['purchase_id']
-        return Product.objects.create(purchase_id=purchase_id, ** validated_data)
-
-
     class Meta:
         model = Product
         fields = ['id', 'user', 'productname',
@@ -87,3 +82,18 @@ class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
         fields = ['id', 'product', 'quantity', 'total_price', 'user']
+
+
+class StockProductSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    user = UserSerializer(read_only=True)
+    supplier = SupplierSerializer(read_only=True)
+    product_type = ProductTypeSerializer(read_only=True)
+    property = ProperySerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'user', 'productname',
+                  'property', 'quantity', 'price',
+                  'threshold', 'product_type',
+                  'supplier']
