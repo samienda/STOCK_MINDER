@@ -12,6 +12,10 @@ class UserSerializer(BaseUserSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     user = UserSerializer(read_only=True)
+    property_str = serializers.SerializerMethodField()
+    supplier_str = serializers.SerializerMethodField()
+    product_type_str = serializers.SerializerMethodField()
+    
 
 
     class Meta:
@@ -19,7 +23,17 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'productname',
                   'property', 'quantity', 'price',
                   'threshold', 'product_type',
-                  'supplier']
+                  'supplier', 'property_str', 'supplier_str', 'product_type_str']
+        
+        
+    def get_property_str(self, obj):
+        return str(obj.property)
+    
+    def get_supplier_str(self, obj):
+        return str(obj.supplier)
+    
+    def get_product_type_str(self, obj):
+        return str(obj.product_type)
 
 
 class SupplierSerializer(serializers.ModelSerializer):
@@ -78,22 +92,13 @@ class ProperySerializer(serializers.ModelSerializer):
 class SaleSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
+    product_str = serializers.SerializerMethodField()
 
     class Meta:
         model = Sale
-        fields = ['id', 'product', 'quantity', 'total_price', 'user', 'date']
+        fields = ['id', 'product', 'quantity', 'total_price', 'user', 'date', 'product_str']
+        
+    def get_product_str(self, obj):
+        return str(obj.product)
+    
 
-
-class StockProductSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
-    user = UserSerializer(read_only=True)
-    supplier = SupplierSerializer(read_only=True)
-    product_type = ProductTypeSerializer(read_only=True)
-    property = ProperySerializer(read_only=True)
-
-    class Meta:
-        model = Product
-        fields = ['id', 'user', 'productname',
-                  'property', 'quantity', 'price',
-                  'threshold', 'product_type',
-                  'supplier']
