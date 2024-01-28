@@ -35,7 +35,11 @@ class ProductViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        purchase_id = self.kwargs.get('purchase_pk')
+        purchase = Purchase.objects.get(id=purchase_id)
+
+        serializer.save(user=self.request.user, purchase=purchase)
+
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -82,8 +86,7 @@ class ProductTypeViewSet(ModelViewSet):
     
 
 class PurchaseViewSet(ModelViewSet):
-    queryset = Purchase.objects.annotate(
-        product_count=Count('productslist')).all()
+    queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
