@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 # from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin, RetrieveModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework import status
 # from rest_framework.
@@ -140,7 +140,7 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
         return Sale.objects.filter(id__in=product_ids)
 
 
-class StockProductViewSet(ListModelMixin, GenericViewSet, DestroyModelMixin, RetrieveModelMixin):
+class StockProductViewSet(ListModelMixin, GenericViewSet, DestroyModelMixin, RetrieveModelMixin, UpdateModelMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
