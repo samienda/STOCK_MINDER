@@ -59,6 +59,12 @@ class SupplierViewSet(ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = '__all__'
+    search_fields = ['name']
+    ordering_fields = '__all__'
+
+
     
     def destroy(self, request, *args, **kwargs):
         if Product.objects.filter(supplier_id= kwargs['pk']).count() > 0:
@@ -146,7 +152,7 @@ class StockProductViewSet(ListModelMixin, GenericViewSet, DestroyModelMixin, Ret
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
-    search_fields = '__all__'
+    search_fields = ['productname']
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user)
