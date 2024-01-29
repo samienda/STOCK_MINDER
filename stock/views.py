@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 # from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin, RetrieveModelMixin
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework import status
 # from rest_framework.
@@ -18,10 +18,14 @@ from stock.models import Product, Supplier, ProductType, Purchase, Property, Sal
 from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, PropertySerializer, SaleSerializer
 
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
-from django.core.mail import BadHeaderError
-from smtplib import SMTPException
-
+import smtplib
+import socket
+from pathlib import Path
+from string import Template
 
 # Create your views here.
 
@@ -136,40 +140,7 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
         return Sale.objects.filter(id__in=product_ids)
 
 
-
-    # def generate_alert_email(self, product):
-    #     send_mail(
-    #         'Product Alert',
-    #         f'Product {product.productname} is low on stock',
-    #         'samipythontest@gmail.com',
-    #         [self.request.user.email],
-    #         fail_silently=False,
-    #     )
-
-
-
-def generate_alert_email(self, product):
-    try:
-        send_mail(
-            'Product Alert',
-            f'Product {product.productname} is low on stock',
-            'samipythontest@gmail.com',
-            [self.request.user.email],
-            fail_silently=False,
-        )
-    except BadHeaderError:
-        print('Invalid header found.')
-    except SMTPException as e:
-        print(f'An error occurred: {e}')
-
-
-
-
-
-
-
-
-class StockProductViewSet(ListModelMixin, GenericViewSet, ):
+class StockProductViewSet(ListModelMixin, GenericViewSet, DestroyModelMixin, RetrieveModelMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
@@ -179,6 +150,12 @@ class StockProductViewSet(ListModelMixin, GenericViewSet, ):
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        if Sale.objects.filter(product_id=kwargs['pk']).count() > 0:
+            return Response({'error': "product can not be deleted since it is associated with sale"}, status=status.HTTP_400_BAD_REQUEST)
+        return super().destroy(request, *args, **kwargs)
+
 
 
 class LowStockProductViewSet(ListModelMixin, GenericViewSet):
@@ -191,6 +168,7 @@ class LowStockProductViewSet(ListModelMixin, GenericViewSet):
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user, quantity__lte=F('threshold'))
+
 
 
 
