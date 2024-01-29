@@ -14,7 +14,7 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 # from rest_framework.
 
 from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
-from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, ProperySerializer, SaleSerializer
+from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, PropertySerializer, SaleSerializer
 
 
 
@@ -56,7 +56,7 @@ class SupplierViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def destroy(self, request, *args, **kwargs):
-        if Product.objects.filter(supplier_id= kwargs['pk'].count() > 0):
+        if Product.objects.filter(supplier_id= kwargs['pk']).count() > 0:
             return Response({'error': "supplier can not be deleted since it is associated with product"})
         return super().destroy(request, *args, **kwargs)
 
@@ -103,7 +103,7 @@ class PurchaseViewSet(ModelViewSet):
 
 class PropertyViewSet(ModelViewSet):
     queryset = Property.objects.all()
-    serializer_class = ProperySerializer
+    serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
     
     

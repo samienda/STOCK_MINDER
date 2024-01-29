@@ -9,12 +9,20 @@ class UserSerializer(BaseUserSerializer):
 
 
 
+class PropertySerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    class Meta:
+        model = Property
+        fields = ['id', 'brand', 'size']
+
+
 class ProductSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     user = UserSerializer(read_only=True)
     property_str = serializers.SerializerMethodField()
     supplier_str = serializers.SerializerMethodField()
     product_type_str = serializers.SerializerMethodField()
+    # property = PropertySerializer()
     
 
 
@@ -81,12 +89,6 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 
-
-class ProperySerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
-    class Meta:
-        model = Property
-        fields = ['id', 'brand', 'size']
 
 
 class SaleSerializer(serializers.ModelSerializer):
