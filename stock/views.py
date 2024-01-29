@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
 from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework import status
 # from rest_framework.
 
 from stock.models import Product, Supplier, ProductType, Purchase, Property, Sale
@@ -57,7 +58,7 @@ class SupplierViewSet(ModelViewSet):
     
     def destroy(self, request, *args, **kwargs):
         if Product.objects.filter(supplier_id= kwargs['pk']).count() > 0:
-            return Response({'error': "supplier can not be deleted since it is associated with product"})
+            return Response({'error': "supplier can not be deleted since it is associated with product"}, status=status.HTTP_400_BAD_REQUEST)
         return super().destroy(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -168,7 +169,7 @@ def generate_alert_email(self, product):
 
 
 
-class StockProductViewSet(ListModelMixin, GenericViewSet):
+class StockProductViewSet(ListModelMixin, GenericViewSet, ):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
@@ -190,3 +191,42 @@ class LowStockProductViewSet(ListModelMixin, GenericViewSet):
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user, quantity__lte=F('threshold'))
+
+
+
+
+
+def generate_alert_email(self, product):
+
+    message = MIMEMultipart()
+    message["from"] = "SAMUEL ENDALE"
+    message["to"] = "sifenbeshada613@gmail.com"
+    message["subject"] = "this is test"
+    # message.attach(
+    #     MIMEText("this is my first email sent by SAMI using a python interpreter", "plain"))
+
+    # here we can use a plain text like the upper one or we can create an  html template
+    template = Template(Path(
+        r"C:\Users\SAMI\Videos\PYTHON\HELLOWORLD\.vscode\chapter_nine_python_standard_library\template.html").read_text(encoding="utf-8"))
+    body_part = template.substitute({"name": "SAMI"})
+    message.attach(MIMEText(body_part, "html"))
+
+    message.attach(MIMEImage(open(Path(
+        r"C:\Users\SAMI\Videos\PYTHON\HELLOWORLD\.vscode\chapter_nine_python_standard_library\sami.jpg.jpg"), "rb").read()))
+    print("fine")
+
+    try:
+        with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp:
+            smtp.ehlo()
+            print("hello")
+            smtp.starttls()  # transport layer security with this all the commands we send with server will be encrypted
+            print("transporting")
+            smtp.login("samipythontest@gmail.com",
+                       "kbqrjimrtbstdxky")
+            print("logged in")
+            smtp.send_message(message)
+            print("sent...")
+    except socket.gaierror as ex:
+        print(ex)
+    except smtplib.SMTPAuthenticationError as e:
+        print(e)
