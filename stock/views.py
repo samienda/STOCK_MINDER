@@ -2,7 +2,6 @@
 # from django.http import HttpResponse
 from django.db.models.aggregates import Count
 from django.db.models import F
-from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 
@@ -18,14 +17,7 @@ from stock.models import Product, Supplier, ProductType, Purchase, Property, Sal
 from stock.serializers import ProductSerializer, SupplierSerializer, ProductTypeSerializer, PurchaseSerializer, PropertySerializer, SaleSerializer
 
 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-
-import smtplib
-import socket
-from pathlib import Path
-from string import Template
+from . import emailsender
 
 # Create your views here.
 
@@ -126,8 +118,15 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
+        instance = serializer.save(user=self.request.user)
+        product = instance.product
+        
+        print(product.quantity, product.threshold)
+        if product.quantity <= product.threshold:
+            
+            emailsender.generate_alert_email(self.request.user.username, product.productname, product.quantity)
+        
+        
 
     def perform_destroy(self, instance):
         product = instance.product
@@ -135,9 +134,7 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
         product.quantity += instance.quantity
         product.save()
 
-        if product.quantity < product.threshold:
-            self.generate_alert_email(product)
-
+    
         return super().perform_destroy(instance)
 
     def get_queryset(self):
@@ -175,42 +172,3 @@ class LowStockProductViewSet(ListModelMixin, GenericViewSet):
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user, quantity__lte=F('threshold'))
 
-
-
-
-
-
-def generate_alert_email(self, product):
-
-    message = MIMEMultipart()
-    message["from"] = "SAMUEL ENDALE"
-    message["to"] = "sifenbeshada613@gmail.com"
-    message["subject"] = "this is test"
-    # message.attach(
-    #     MIMEText("this is my first email sent by SAMI using a python interpreter", "plain"))
-
-    # here we can use a plain text like the upper one or we can create an  html template
-    template = Template(Path(
-        r"C:\Users\SAMI\Videos\PYTHON\HELLOWORLD\.vscode\chapter_nine_python_standard_library\template.html").read_text(encoding="utf-8"))
-    body_part = template.substitute({"name": "SAMI"})
-    message.attach(MIMEText(body_part, "html"))
-
-    message.attach(MIMEImage(open(Path(
-        r"C:\Users\SAMI\Videos\PYTHON\HELLOWORLD\.vscode\chapter_nine_python_standard_library\sami.jpg.jpg"), "rb").read()))
-    print("fine")
-
-    try:
-        with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp:
-            smtp.ehlo()
-            print("hello")
-            smtp.starttls()  # transport layer security with this all the commands we send with server will be encrypted
-            print("transporting")
-            smtp.login("samipythontest@gmail.com",
-                       "kbqrjimrtbstdxky")
-            print("logged in")
-            smtp.send_message(message)
-            print("sent...")
-    except socket.gaierror as ex:
-        print(ex)
-    except smtplib.SMTPAuthenticationError as e:
-        print(e)
