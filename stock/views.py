@@ -2,9 +2,10 @@
 # from django.http import HttpResponse
 from django.db.models.aggregates import Count
 from django.db.models import F
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 # from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -118,8 +119,14 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        instance = serializer.save(user=self.request.user)
-        product = instance.product
+        product = serializer.validated_data['product']
+        quantity = serializer.validated_data['quantity']
+
+        if product.quantity < quantity:
+            raise ValidationError(
+                {"quantity": f"not enough stock. you have only {product.quantity} left"})
+
+        serializer.save(user=self.request.user)
         
         print(product.quantity, product.threshold)
         if product.quantity <= product.threshold:

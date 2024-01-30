@@ -101,6 +101,15 @@ class SaleSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'quantity', 'total_price', 'user', 'date', 'product_str']
         
     def get_product_str(self, obj):
-        return str(obj.product)
+        
+        if isinstance(obj, Sale):
+            return str(obj.product)
+        else:
+            product = obj.get('product')
+            
+            if isinstance(product, Product):
+                return str(product)
+            else:
+                return product.get('productname')
     
 
