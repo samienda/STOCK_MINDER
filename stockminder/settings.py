@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from hide.hide import dbpass
+# from hide.hide import dbpass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,20 +42,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'stock',
-<<<<<<< HEAD
     "debug_toolbar",
     "django_filters",
     'corsheaders',
-<<<<<<< HEAD
-=======
-    'debug_toolbar',
-    'tags',
-    'stock_custom',
-
->>>>>>> class_schema
-=======
     'core',
->>>>>>> 300a086501a5a9cd479ecbf0d22516c07c57cd3c
 ]
 
 MIDDLEWARE = [
@@ -101,7 +91,7 @@ WSGI_APPLICATION = 'stockminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-dbpass = '123321'
+
 
 DATABASES = {
     'default': {
@@ -109,13 +99,8 @@ DATABASES = {
         'NAME': 'stockminder',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-<<<<<<< HEAD
         'USER': 'root',
         'PASSWORD': dbpass
-=======
-        'USER': 'root',  # MySQL username is 'root'
-        'PASSWORD': dbpass,
->>>>>>> class_schema
     }
 }
 
