@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'stockminder.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-
+dbpass = "createastrongpassword"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
