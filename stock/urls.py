@@ -22,5 +22,3 @@ purchases_router.register(
 
 
 urlpatterns = router.urls + purchases_router.urls
-    
-
