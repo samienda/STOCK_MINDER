@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Supplier</title>
+    <link rel="stylesheet" href="CSS/addsupplier.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="CSS/buttton.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header class="head__link" tabindex="0">
+      <h2>Stock Minder</h2>
+        <ul class="all-links">
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="addproduct.html">Inventory</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+         <li><a href="#" class="link-btn" id="logoutBtn">Logout</a></li>
+    </header>
+
+    <div class="page">
+        <div id="nav-container">
+          <div class="bg"></div>
+          <div class="button" tabindex="0">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+          <div id="nav-content" tabindex="0">
+            <ul class="all__nav">
+              <li class="dropdown"><a href="Dashboard.html" class="anchor">Dashboard</a></li>
+              
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Purchase</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <!-- <li><a href="#" class="submenu-link1">Add Purchase</a></li>
+                   --><li><a href="viewpurchase.html" class="submenu-link">View Purchase</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Supplier</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsupplier.html" class="submenu-link1">Add Supplier</a></li>
+                  <li><a href="viewsupplier.html" class="submenu-link">View Supplier</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Product</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addproduct.html" class="submenu-link1">Add Product</a></li>
+                  <li><a href="viewproduct.html" class="submenu-link">View Product</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Sell</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsell.html" class="submenu-link1">Add Sell</a></li>
+                  <li><a href="viewsell.html" class="submenu-link">View Sell</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown"><a href="lowstock.html" class="anchor">LowStock</a></li>
+              <li class="dropdown"><a href="report.html" class="anchor">Report</a></li>
+              <li class="dropdown"><a href="Myaccount.html" class="anchor">My Account</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="main-content-side">
+  <main>
+    <section class="dashboard"></section>
+    <section class="add-sell">
+        <h2>Add Property</h2>
+        <div class="main-content">
+            <form class="add-sell-form" id="form">
+                <div class="form-group">
+                    <label for="Product-id">Brand:</label>
+                    <input type="text" id="Product-id" name="brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="Quantity">Size:</label>
+                    <input type="text" id="Quantity" name="size" required>
+                </div>
+                <button type="submit" class="save-buttton">Save</button>
+            </form>
+        </div>
+    </section>
+  </main>
+    </div>
+</div>
+<script src="javascript/addsupplier.js"></script> 
+<script src="Fetch/propertyfetch.js"> </script>
+<script src="Fetch/logout.js"></script>
+</body>
+</html>

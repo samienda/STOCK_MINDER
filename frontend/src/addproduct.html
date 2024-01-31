@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Supplier</title>
+    <link rel="stylesheet" href="CSS/addproduct.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="CSS/buttton.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header class="head__link" tabindex="0">
+      <h2>Stock Minder</h2>
+        <ul class="all-links">
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="addproduct.html">Inventory</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+         <li><a href="#" class="link-btn" id="logoutBtn">Logout</a></li>
+    </header>
+
+    <div class="page">
+        <div id="nav-container">
+          <div class="bg"></div>
+          <div class="button" tabindex="0">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+          <div id="nav-content" tabindex="0">
+            <ul class="all__nav">
+              <li class="dropdown"><a href="Dashboard.html" class="anchor">Dashboard</a></li>
+              
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Purchase</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <!-- <li><a href="#0" class="submenu-link1">Add Purchase</a></li>
+                   --><li><a href="viewpurchase.html" class="submenu-link">View Purchase</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Supplier</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsupplier.html" class="submenu-link1">Add Supplier</a></li>
+                  <li><a href="viewsupplier.html" class="submenu-link">View Supplier</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Product</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addproduct.html" class="submenu-link1">Add Product</a></li>
+                  <li><a href="viewproduct.html" class="submenu-link">View Product</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Sell</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsell.html" class="submenu-link1">Add Sell</a></li>
+                  <li><a href="viewsell.html" class="submenu-link">View Sell</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown"><a href="lowstock.html" class="anchor">LowStock</a></li>
+              <li class="dropdown"><a href="report.html" class="anchor">Report</a></li>
+              <li class="dropdown"><a href="Myaccount.html" class="anchor">My Account</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="main-content-side">
+  <main>
+    <section class="dashboard"></section>
+    <section class="add-sell">
+        <h2>Add Product</h2>
+        <div class="main-content">
+            <form class="add-sell-form" id="form">
+          
+                <div class="form-group">
+                    <label for="Product-id">Product Name:</label>
+                    <input type="text" id="Product-id" name="productname" required>
+                </div>
+
+              
+
+                <div class="form-group">
+                  <label for="Supplier-name">Supplier Name:</label>
+                  <select id="Supplier-name" name="supplier" required>
+                  </select>
+                </div>
+                
+
+                <!-- <div class="form-group">
+                  <label for="sell-code">Product Type:</label>
+                  <select id="sell-code" name="sell-code" required>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                  </select>
+                </div> -->
+
+                <div class="form-group">
+                  <label for="product-type">Product Type:</label>
+                  <select id="product-type" name="product_type" required>
+                  </select>
+                </div>
+
+              <div class="form-group">
+                  <label for="Product-id">Quantity:</label>
+                  <input type="number" id="Product-id" name="quantity" required>
+              </div>
+             
+              <div class="form-group">
+                <label for="Product-id">Price:</label>
+                <input type="number" id="Product-id" name="price" required>
+            </div>
+
+            <div class="form-group">
+              <label for="Product-id">Threshold</label>
+              <input type="number" id="Product-id" name="threshold" required>
+          </div>
+
+            
+
+  
+            <div class="form-group">
+              <label for="property-name">Property Name:</label>
+              <select id="property-name" name="property" required>
+              </select>
+              <a href="property.html" class="add-property">add</a>
+            </div>
+                
+
+                <button type="submit" class="save-buttton">Save</button>
+            </form>
+        </div>
+    </section>
+  </main>
+    </div>
+</div>
+<!-- <script src="javascript/addproduct.js"></script> -->
+<script src="Fetch/productfetch.js"></script>
+<script src="Fetch/logout.js"></script>
+</body>
+</html>
+

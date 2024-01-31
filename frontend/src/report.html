@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="CSS/addproduct.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="CSS/buttton.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #controls button {
+          background-color: #4CAF50; /* Green background */
+          border: none; /* Remove border */
+          color: white; /* White text */
+          padding: 15px 32px; /* Some padding */
+          text-align: center; /* Centered text */
+          text-decoration: none; /* Remove underline */
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer; /* Mouse pointer on hover */
+          transition-duration: 0.4s; /* Transition effect */
+          border-radius: 15px;
+        }
+      
+        #controls button:hover {
+          background-color: #09290b; /* Green background on hover */
+          transform: scale(1.1
+          );
+        }
+
+        .page {
+          position: relative; /* Required for z-index to work */
+          z-index: 1000; /* Any number higher than the z-index of the graphs */
+        }
+        
+        #graph1 {
+          z-index: 999; /* Any number lower than the z-index of the header and dropdown */
+        }
+
+        
+
+        
+      </style>
+  </head>
+  <body>
+    <header class="head__link" tabindex="0">
+        <h2>Stock Minder</h2>
+          <ul class="all-links">
+            <li><a href="landing.html">Home</a></li>
+            <li><a href="addproduct.html">Inventory</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+           <li><a href="#" class="link-btn" id="logoutBtn">Logout</a></li>
+      </header>
+  
+      <div class="page">
+          <div id="nav-container">
+            <div class="bg"></div>
+            <div class="button" tabindex="0">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </div>
+            <div id="nav-content" tabindex="0">
+              <ul class="all__nav">
+                <li class="dropdown"><a href="Dashboard.html" class="anchor">Dashboard</a></li>
+                
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Purchase</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <!-- <li><a href="#0" class="submenu-link1">Add Purchase</a></li>
+                     --><li><a href="viewpurchase.html" class="submenu-link">View Purchase</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Supplier</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addsupplier.html" class="submenu-link1">Add Supplier</a></li>
+                    <li><a href="viewsupplier.html" class="submenu-link">View Supplier</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Product</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addproduct.html" class="submenu-link1">Add Product</a></li>
+                    <li><a href="viewproduct.html" class="submenu-link">View Product</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Sell</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addsell.html" class="submenu-link1">Add Sell</a></li>
+                    <li><a href="viewsell.html" class="submenu-link">View Sell</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown"><a href="lowstock.html" class="anchor">LowStock</a></li>
+                <li class="dropdown"><a href="report.html" class="anchor">Report</a></li>
+                <li class="dropdown"><a href="Myaccount.html" class="anchor">My Account</a></li>
+              </ul>
+            </div>
+          </div>
+      </div>
+
+
+
+    <div id="controls">
+      <button onclick="updateGraph('weekly')">Weekly</button>
+      <button onclick="updateGraph('monthly')">Monthly</button>
+      <button onclick="updateGraph('daily')">daily</button>
+    </div>
+    <div id="graph1"></div>
+
+    <script src="../src/Fetch/report.js"></script>
+
+  </body>
+</html>

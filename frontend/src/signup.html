@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="CSS/signupstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="container">
+      <div class="cover">
+        <div class="cover__sub">   
+          <img src="../src/Images/blackgirl.jpg" alt="">
+          <div class="front"> 
+           <div class="text">
+             <h2>Welcome to StockMinder</h2>
+             <span class="text-1">Effective management of inventory <br>
+                            is crucial for your businesses to optimize <br>
+                            their operations, and minimize costs </span>
+           </div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+            <h1>Stock Minder</h1>
+            <h2 class="title1">Sign Up</h2>
+            <p class="new__account">Already have an account? <a href="login.html" class="account__link">Login</a></p>
+          <form action="#" id="signup-form">
+            <div class="input-boxes">
+                <label for="text" class="input__label">Username</label>
+                <input type="text" required name="username">
+
+                <label for="text" class="input__label">Email</label>
+                <input type="email" required name="email">
+        
+                <label for="password" class="input__label">Password</label>
+                <div class="enter__password">
+                   <input type="password" id="id_password"required name="password">
+                   <i class= "fa-solid fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>                  
+                </div>
+              <div class="button input-box">
+                <button type="submit">Signup</button>
+              </div>
+              <p id="error-message"></p>
+           </form>
+        </div>
+    </div>
+  
+  <script src="javascript/signupscript.js"></script>
+  <script src="Fetch/signup.js"></script>
+</body>
+</html>
+

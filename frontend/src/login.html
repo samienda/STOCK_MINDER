@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <!--<title> Login and Registration Form in HTML & CSS | CodingLab </title>-->
+    <link rel="stylesheet" href="CSS/loginstyle.css"><!-- 
+    <link rel="stylesheet" href="../../merged-frontend-stock/src/login.html"> -->
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="container">
+    <!-- <input type="checkbox" id="flip"> -->
+    <div class="cover">
+      <img src="../src/Images/blackboy.jpg" alt="">
+      <div class="front"> 
+        <div class="text">
+          <h2>Welcome to StockMinder</h2>
+          <span class="text-1">Effective management of inventory <br>
+                         is crucial for your businesses to optimize <br>
+                         their operations, and minimize costs </span>
+        </div>
+      </div>
+    </div>
+    <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+            <h1>Stock Minder</h1>
+            <h2 class="title1">Login</h2>
+            <p class="new__account">Don't have an account? <a href="signup.html" class="account__link">Create now</a></p>
+          <form action="#" id="login-form">
+            <div class="input-boxes">
+                <label for="text" class="input__label input1">Username</label>
+                <input type="text" required name="username">
+        
+                <label for="password" class="input__label">Password</label>
+                <div class="enter__password">
+                   <input type="password" id="id_password"required name="password">
+                   <i class= "fa-solid fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>                  
+                </div>
+             
+              <div  class="form-group">
+                <label class="label__items">
+                  <input type="checkbox" name="rememberMe" class="checkbox_box"> Remember Me
+                </label>
+                <a href="#">Forgot Password?</a>
+             </div>
+              <div class="button input-box">
+                <button type="submit">Login</button>
+              </div>
+        </form>
+        <p id="error-message"></p>
+    </div>
+  </div>
+  <script src="javascript/loginscript.js"></script>
+  <script src="Fetch/loginfetch.js"></script>
+</body>
+</html>

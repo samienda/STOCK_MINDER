@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Sell</title>
+    <link rel="stylesheet" href="CSS/viewproduct.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="CSS/design.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <header class="head__link" tabindex="0">
+      <h2 class="Stock-Minder">Stock Minder</h2>
+        <ul class="all-links">
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="addproduct.html">Inventory</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+         <li><a href="#" class="link-btn" id="logoutBtn">Logout</a></li>
+    </header>
+
+    <div class="page">
+        <div id="nav-container">
+          <div class="bg"></div>
+          <div class="button" tabindex="0">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+          <div id="nav-content" tabindex="0">
+            <ul class="all__nav">
+              <li class="dropdown"><a href="Dashboard.html" class="anchor">Dashboard</a></li>
+              
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Purchase</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <!-- <li><a href="addproduct.html" class="submenu-link1">Add Purchase</a></li>
+                   --><li><a href="viewpurchase.html" class="submenu-link">View Purchase</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Supplier</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsupplier.html" class="submenu-link1">Add Supplier</a></li>
+                  <li><a href="viewsupplier.html" class="submenu-link">View Supplier</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Product</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addproduct.html" class="submenu-link1">Add Product</a></li>
+                  <li><a href="viewproduct.html" class="submenu-link">View Product</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <div class="item_drop">
+                  <a href="#0" class="anchor">Sell</a>
+                  <i class="bx bxs-down-arrow"></i>
+                </div>
+                <ul class="submenu">
+                  <li><a href="addsell.html" class="submenu-link1">Add Sell</a></li>
+                  <li><a href="viewsell.html" class="submenu-link">View Sell</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown"><a href="lowstock.html" class="anchor">LowStock</a></li>
+              <li class="dropdown"><a href="report.html" class="anchor">Report</a></li>
+              <li class="dropdown"><a href="Myaccount.html" class="anchor">My Account</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="main-content-side">
+        <main>
+            <section class="View-Sell">
+                <div class="View-Sell-button">
+                  <h2 class="viewsell-h">View Product</h2> 
+                
+                 <a class="addsell-button" href="addproduct.html">
+                     Add Product
+                 </a>
+                </div>
+                <div class="icon-search">
+                    <p class="search-p">Search: <input type="text" id="search-bar" name="search-bar" placeholder="Search" >
+                     <i class="bi bi-search"></i> </p>
+                </div>
+
+                <div class="top">
+                  <form action="" id="form" class="produpdateform">
+                    <input type="text" name="" id="updatecode" placeholder="newcode" style="display: none;">
+                    <div>
+                      <label for="Product-id">Product Name:</label>
+                      <input type="text" id="updatedname" name="productname" required class="prodinput">
+  
+      
+                
+                    <label for="Product-id">Quantity:</label>
+                    <input type="number" id="updatedQuantity" name="quantity" required class="prodinput">
+                
+               
+      
+                  <label for="Product-id">Price:</label>
+                  <input type="number" id="updatedPrice" name="price" required class="prodinput">
+              
+                </div>
+
+                <div class="bottom">
+              
+                <label for="Product-id">Threshold: </label>
+                <input type="number" id="updatedThreshold" name="threshold" required class="prodinput">
+              
+            
+            
+                   <label for="Supplier-name">Supplier Name:</label>
+                      <select id="Supplier-name" name="supplier" required style="width: 100px;" class="prodinput">
+                      </select>
+            
+
+            
+              <label for="product-type">Product Type:</label>
+              <select id="product-type" name="product_type" required style="width: 100px;" class="prodinput prodinputselect">
+              </select>
+            
+     
+              
+                <label for="property-name">Property Name:</label>
+                <select id="property-name" name="property" required style="width: 100px;" class="prodinput prodinputselect">
+                </select>
+              </div>
+              
+              <button type="submit" class="btn-2">Update Product</button>
+            </form>
+           
+          </div>
+
+                
+                <table id="productTable">
+                  <thead>
+                    <tr>
+                      <th> Product Code </th>
+                      <th> Product Name</th>
+                      <th> Supplier Name</th>
+                      <th> ProductType</th>
+                      <th> Quantiy</th>
+                      <th> Price</th>
+                      <th> Property </th>
+                      <th class="action"> Action </th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                
+                <!-- <table>
+                    <thead>
+                        <tr>
+                            <th> Product Code </th>
+                            <th> Product Name</th>
+                            <th> Supplier Name</th>
+                            <th> Quantiy</th>
+                            <th> Price</th>
+                            <th> Property </th>
+                            <th> action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                </table> -->
+            </section>
+        </main>
+    </div>
+</div>
+<script src="javascript/viewproduct.js"></script> 
+<script src="Fetch/productfetch2.js"></script>
+<script src="Fetch/logout.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="CSS/dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header class="head__link" tabindex="0">
+        <h2>Stock Minder</h2>
+          <ul class="all-links">
+            <li><a href="landing.html">Home</a></li>
+            <li><a href="addproduct.html">Inventory</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+           <li><a href="#" class="link-btn" id="logoutBtn">Logout</a></li>
+      </header>
+  
+      <div class="page">
+          <div id="nav-container">
+            <div class="bg"></div>
+            <div class="button" tabindex="0">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </div>
+            <div id="nav-content" tabindex="0">
+              <ul class="all__nav">
+                <li class="dropdown"><a href="Dashboard.html" class="anchor">Dashboard</a></li>
+                
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Purchase</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <!-- <li><a href="#0" class="submenu-link1">Add Purchase</a></li>
+                     --><li><a href="viewpurchase.html" class="submenu-link">View Purchase</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Supplier</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addsupplier.html" class="submenu-link1">Add Supplier</a></li>
+                    <li><a href="viewsupplier.html" class="submenu-link">View Supplier</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Product</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addproduct.html" class="submenu-link1">Add Product</a></li>
+                    <li><a href="viewproduct.html" class="submenu-link">View Product</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown">
+                  <div class="item_drop">
+                    <a href="#0" class="anchor">Sell</a>
+                    <i class="bx bxs-down-arrow"></i>
+                  </div>
+                  <ul class="submenu">
+                    <li><a href="addsell.html" class="submenu-link1">Add Sell</a></li>
+                    <li><a href="viewsell.html" class="submenu-link">View Sell</a></li>
+                  </ul>
+                </li>
+  
+                <li class="dropdown"><a href="lowstock.html" class="anchor">LowStock</a></li>
+                <li class="dropdown"><a href="report.html" class="anchor">Report</a></li>
+                <li class="dropdown"><a href="Myaccount.html" class="anchor">My Account</a></li>
+              </ul>
+            </div>
+          </div>
+      </div>
+      <div class="main-content-side">
+  
+      <main>
+    <section class="services">
+      <h2> Dashboard</h2>
+      <ul class="cards">
+        <li class="card">
+          <i class='bx bx-category' style="font-size: 60px;"></i>
+          <h3>Categories</h3>
+          <p id="categoryCount">8</p>
+        </li>
+        <li class="card">
+          <i class='bx bx-cart-alt' style="font-size: 60px;"></i>
+          <h3>Products</h3>
+          <p id="productCount">16</p>
+        </li>
+
+        <li class="card">
+          
+          <i class='bx bx-dollar' style="font-size: 60px;"></i>
+          <h3>Sales</h3>
+          <p id="salesAmount">3400$</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="tables">
+     
+      <!-- <div class="table-card">
+          <h3>Highest selling products</h3>
+          <table>
+             
+              <tr>
+                  <th>Title</th>
+                  <th>Total sales</th>
+                  <th>Total quantity</th>
+                  
+              </tr>
+              <tr>
+                  <td>Data 1</td>
+                  <td>Data 2</td>
+                  <td>Data 3</td>
+              </tr>
+              
+          </table>
+      </div> -->
+
+      
+      <div class="table-card" id="sales-table">
+          <h3>Latest Sales </h3>
+          <table>
+             <tr>
+                <th id="idhash">#</th>
+                <th id="idprod">product Id</th>
+                <th id="iddate">date    </th>
+                <th id="idsale">total sales </th>
+             </tr>            
+          </table>
+      </div>
+
+      
+      <!-- <div class="table-card">
+          <h3>Recently added products</h3>
+          <table>
+              <tr>
+                <th>data 1</th>
+              </tr>
+              <tr>
+                <th> data 2</th>
+              </tr>
+              <tr>
+                <th>data 3</th>
+              </tr>
+          </table>
+      </div -->
+  </section>
+
+
+    </div>
+  </main>
+</div>
+<script src="javascript/dashboard.js"></script> 
+<script src="Fetch/dashboardfetch.js"></script>
+</body>
+</html>
