@@ -6,12 +6,12 @@ import socket
 from string import Template
 
 
-def generate_alert_email(name, product_name, quantity):
+def generate_alert_email(name, email, product_name, quantity):
 
     message = MIMEMultipart()
-    message["from"] = "SAMUEL ENDALE"
-    message["to"] = "sifenbeshada613@gmail.com"
-    message["subject"] = "this is test"
+    message["from"] = "STOCK ALERT"
+    message["to"] = email
+    message["subject"] = "Stock Alert!!!"
 
     # ...
 

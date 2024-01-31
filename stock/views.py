@@ -131,7 +131,8 @@ class SaleViewSet(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericVi
         print(product.quantity, product.threshold)
         if product.quantity <= product.threshold:
             
-            emailsender.generate_alert_email(self.request.user.username, product.productname, product.quantity)
+            emailsender.generate_alert_email(
+                self.request.user.username, self.request.user.email, product.productname, product.quantity)
         
         
 
@@ -156,7 +157,7 @@ class StockProductViewSet(ListModelMixin, GenericViewSet, DestroyModelMixin, Ret
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = '__all__'
-    search_fields = ['productname']
+    search_fields = ['id', 'productname']
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user)
