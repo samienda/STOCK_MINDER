@@ -40,9 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'stock',
+<<<<<<< HEAD
     "debug_toolbar",
     "django_filters",
     'corsheaders',
+=======
+    'debug_toolbar',
+    'tags',
+    'stock_custom',
+
+>>>>>>> class_schema
 ]
 
 MIDDLEWARE = [
@@ -90,14 +97,21 @@ WSGI_APPLICATION = 'stockminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+dbpass = '123321'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'stockminder',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+<<<<<<< HEAD
         'USER': 'root',
         'PASSWORD': dbpass
+=======
+        'USER': 'root',  # MySQL username is 'root'
+        'PASSWORD': dbpass,
+>>>>>>> class_schema
     }
 }
 

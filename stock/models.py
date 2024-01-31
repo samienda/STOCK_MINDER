@@ -1,5 +1,10 @@
 from django.db import models
+<<<<<<< HEAD
 from django.core.validators import MinValueValidator  # , MaxValueValidator
+=======
+from django.core.validators import MinValueValidator #, MaxValueValidator
+
+>>>>>>> class_schema
 # Create your models here.
 
 
@@ -16,8 +21,12 @@ class User(models.Model):
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
+<<<<<<< HEAD
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
+=======
+    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+', blank=True)
+>>>>>>> class_schema
     
     def __str__(self) -> str:
         return self.name
@@ -33,11 +42,18 @@ class Supplier(models.Model):
 
 
 class Purchase(models.Model):
+<<<<<<< HEAD
     quantity = models.IntegerField(
         validators=[MinValueValidator(1)], default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                       MinValueValidator(1.00)], default=0)
     date = models.DateField(auto_now_add=True)
+=======
+    quantity = models.IntegerField(validators=[MinValueValidator(1)])
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
+    date = models.DateField(auto_now_add=True)
+    productlist = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='productlist', null=True, blank=True)
+>>>>>>> class_schema
     
     
     def __str__(self) -> str:
