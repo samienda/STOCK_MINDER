@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from hide.hide import dbpass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,15 +33,33 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sessions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'stock',
+<<<<<<< HEAD
     "debug_toolbar",
+    "django_filters",
+    'corsheaders',
+<<<<<<< HEAD
+=======
+    'debug_toolbar',
+    'tags',
+    'stock_custom',
+
+>>>>>>> class_schema
+=======
+    'core',
+>>>>>>> 300a086501a5a9cd479ecbf0d22516c07c57cd3c
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +73,9 @@ MIDDLEWARE = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'stockminder.urls'
 
@@ -79,10 +101,21 @@ WSGI_APPLICATION = 'stockminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+dbpass = '123321'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'stockminder',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+<<<<<<< HEAD
+        'USER': 'root',
+        'PASSWORD': dbpass
+=======
+        'USER': 'root',  # MySQL username is 'root'
+        'PASSWORD': dbpass,
+>>>>>>> class_schema
     }
 }
 
@@ -127,3 +160,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'samipythontest@gmail.com'
+EMAIL_HOST_PASSWORD = 'createastrongpassword'
