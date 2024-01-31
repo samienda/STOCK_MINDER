@@ -6,8 +6,12 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
+djangorestframework = "*"
 mysqlclient = "*"
-pymysql = "*"
+django-filter = "*"
+drf-nested-routers = "*"
+djoser = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
