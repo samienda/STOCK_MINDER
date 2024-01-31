@@ -1,3 +1,4 @@
 hide/
 stock/__pycache__/
 stockminder/__pycache__/
+*.pyc
