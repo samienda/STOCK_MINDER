@@ -39,17 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'stock',
 <<<<<<< HEAD
     "debug_toolbar",
     "django_filters",
     'corsheaders',
+<<<<<<< HEAD
 =======
     'debug_toolbar',
     'tags',
     'stock_custom',
 
 >>>>>>> class_schema
+=======
+    'core',
+>>>>>>> 300a086501a5a9cd479ecbf0d22516c07c57cd3c
 ]
 
 MIDDLEWARE = [
@@ -68,9 +74,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://127.0.0.1:5500",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'stockminder.urls'
@@ -158,3 +162,16 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'samipythontest@gmail.com'
+EMAIL_HOST_PASSWORD = 'createastrongpassword'
