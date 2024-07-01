@@ -46,7 +46,7 @@ def generate_alert_email(name, email, product_name, quantity):
             smtp.starttls()  # transport layer security with this all the commands we send with server will be encrypted
             print("transporting")
             smtp.login("samipythontest@gmail.com",
-                       "kbqrjimrtbstdxky")
+                       "****")
             print("logged in")
             smtp.send_message(message)
             print("sent...")
